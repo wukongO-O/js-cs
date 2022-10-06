@@ -76,6 +76,21 @@ class LinkedList {
             return currentNode4;
         }
     }
+    pop() {
+        if (this.size() == 0) {
+            return;
+        } else if (this.size() == 1) {
+            this.head = null;
+        } else {
+            let previousNode = this.head;
+            let currentNode5 = this.head.nextNode;
+            while(currentNode5.nextNode != null) {
+                previousNode = previousNode.nextNode;
+                currentNode5 = currentNode5.nextNode;
+            }
+            previousNode.nextNode = null;
+        };
+    }
 }
 let list0 = new LinkedList();
 list0.append(2);
@@ -86,12 +101,15 @@ list0.prepend(6);
 //console.log(list0.size());
 //console.log(list0.headNode());
 //console.log(list0.tailNode());
-console.log(list0.at(3));
-console.log(list0.at(0));
-console.log(list0.at(-1));
+//console.log(list0.at(3));
+//console.log(list0.at(0));
+//console.log(list0.at(-1));
+list0.pop();
+console.log(list0.tailNode());
 const list00 = new LinkedList();
 //console.log(list00.headNode());
 //console.log(list00.tailNode());
-console.log(list00.at(0));
-
+//console.log(list00.at(0));
+list00.pop()
+console.log(list00);
 
