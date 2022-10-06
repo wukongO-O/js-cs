@@ -38,6 +38,21 @@ class LinkedList {
             this.head = prependNode;
         };
     }
+
+    size() {
+        if (this.head == null) {
+            return 0;
+        }else {
+            let listSize = 1;
+            let currentNode2; 
+            currentNode2 = this.head;
+            while (currentNode2.nextNode != null) {
+                listSize ++; 
+                currentNode2 = currentNode2.nextNode;
+            }
+            return listSize;
+        };
+    }
 }
 let list0 = new LinkedList();
 list0.append(2);
@@ -46,3 +61,4 @@ list0.append(4);
 list0.prepend(5);
 list0.prepend(6);
 console.log(list0);
+console.log(list0.size());
