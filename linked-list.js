@@ -113,7 +113,18 @@ class LinkedList {
         }
         return null;
     }
+    printList() {
+        if (this.head == null) return null;
+        let currentNode8 = this.head;
+        let listString = '';
+        while (currentNode8 != null) {
+            listString += '(' + currentNode8.value() + ')' + ' -> ';
+            currentNode8 = currentNode8.nextNode;
+        }
+        return listString + 'null';
+    }
 }
+//testing
 let list0 = new LinkedList();
 list0.append(2);
 list0.append(3);
@@ -125,18 +136,21 @@ list0.prepend(6);
 //console.log(list0.tailNode());
 //console.log(list0.at(3));
 //console.log(list0.at(0).value());
-//console.log(list0.at(-1));
-//console.log(list0.contains(4));
-//console.log(list0.contains(10));
-console.log(list0.find(4));
-console.log(list0.find(5));
+//console.log(list0.at(-1));  
+//console.log(list0.contains(4));  //true
+//console.log(list0.contains(10));  //false
+//console.log(list0.find(4));  //4
+//console.log(list0.find(5));  //1
+console.log(list0.printList());  //(6) -> (5) -> (2) -> (3) -> (4) -> null
 //list0.pop();
 //console.log(list0.tailNode());
+
 const list00 = new LinkedList();
 //console.log(list00.headNode());
 //console.log(list00.tailNode());
 //console.log(list00.at(0));
 //list00.pop()
 //console.log(list00);
-//console.log(list00.contains(2));
-console.log(list00.find(2));
+//console.log(list00.contains(2));  //false
+//console.log(list00.find(2));  //null
+console.log(list00.printList());  //null
