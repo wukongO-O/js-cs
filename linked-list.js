@@ -6,7 +6,7 @@ class Node {
         this.nextNode = null;
     }
     value() {
-        return this.node.value = null;
+        return this.node;
     }
 }
 
@@ -91,6 +91,28 @@ class LinkedList {
             previousNode.nextNode = null;
         };
     }
+    contains(value) {
+        if (this.head == null) return false;
+        let currentNode6 = this.head;
+        const hasNode = new Node(value);
+        while (currentNode6 != null) {  
+            if (currentNode6.value() == hasNode.value()) return true;
+            currentNode6 = currentNode6.nextNode; 
+        }
+        return false;
+    }
+    find(value) {
+        if(this.head == null) return null;
+        let currentNode7 = this.head;
+        const findNode = new Node(value);
+        let currentNodeIndex = 0;
+        while (currentNode7 != null) {
+            if (currentNode7.value() == findNode.value()) return currentNodeIndex;
+            currentNode7 = currentNode7.nextNode;
+            currentNodeIndex ++;
+        }
+        return null;
+    }
 }
 let list0 = new LinkedList();
 list0.append(2);
@@ -102,14 +124,19 @@ list0.prepend(6);
 //console.log(list0.headNode());
 //console.log(list0.tailNode());
 //console.log(list0.at(3));
-//console.log(list0.at(0));
+//console.log(list0.at(0).value());
 //console.log(list0.at(-1));
-list0.pop();
-console.log(list0.tailNode());
+//console.log(list0.contains(4));
+//console.log(list0.contains(10));
+console.log(list0.find(4));
+console.log(list0.find(5));
+//list0.pop();
+//console.log(list0.tailNode());
 const list00 = new LinkedList();
 //console.log(list00.headNode());
 //console.log(list00.tailNode());
 //console.log(list00.at(0));
-list00.pop()
-console.log(list00);
-
+//list00.pop()
+//console.log(list00);
+//console.log(list00.contains(2));
+console.log(list00.find(2));
