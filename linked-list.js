@@ -123,6 +123,45 @@ class LinkedList {
         }
         return listString + 'null';
     }
+    //doesn't work right
+    insertAt(value, index) {
+        if (index < 0 || index >= this.size()) {
+            return 'index is out of range'
+        } else if (index == 0) {
+            this.prepend(value);
+        } else if (index == this.size()-1) {
+            this.append(value);
+        } else {
+            let prevNode = this.head; 
+            let currentNode9 = prevNode.nextNode;
+            let currentIndex = 1;
+            const insertNode = new Node(value);
+            while (currentIndex < index) {
+                currentIndex ++;
+                prevNode = currentNode9;
+                currentNode9 = currentNode9.nextNode;
+            }
+            prevNode.nextNode = insertNode;
+            insertNode.nextNode = currentNode9;
+        }
+    }
+    removeAt(index) {
+        if (index < 0 || index >= this.size() || this.head == null) {
+            return 'index is out of range';
+        } else if (index == 0) {
+            this.head = this.head.nextNode;
+        } else {
+            let currentIndex4Removal = 1;
+            let prevNode4Removal = this.head;
+            let currentNode4Removal = this.head.nextNode;
+            while (currentIndex4Removal < index) {
+                currentIndex4Removal ++;
+                prevNode4Removal = currentNode4Removal;
+                currentNode4Removal = currentNode4Removal.nextNode;
+            }
+            prevNode4Removal.nextNode = currentNode4Removal.nextNode;
+        }
+    }
 }
 //testing
 let list0 = new LinkedList();
@@ -141,9 +180,14 @@ list0.prepend(6);
 //console.log(list0.contains(10));  //false
 //console.log(list0.find(4));  //4
 //console.log(list0.find(5));  //1
-console.log(list0.printList());  //(6) -> (5) -> (2) -> (3) -> (4) -> null
+//console.log(list0.printList());  //(6) -> (5) -> (2) -> (3) -> (4) -> null
+list0.insertAt(11, 1);
+list0.insertAt(12, 3);
+//console.log(list0.printList());  //(6) -> (11) -> (5) -> (12) -> (2) -> (3) -> (4) -> null
 //list0.pop();
 //console.log(list0.tailNode());
+list0.removeAt(2);  //(6) -> (11) -> (12) -> (2) -> (3) -> (4) -> null
+console.log(list0.printList());
 
 const list00 = new LinkedList();
 //console.log(list00.headNode());
@@ -153,4 +197,6 @@ const list00 = new LinkedList();
 //console.log(list00);
 //console.log(list00.contains(2));  //false
 //console.log(list00.find(2));  //null
-console.log(list00.printList());  //null
+//console.log(list00.printList());  //null
+//console.log(list00.insertAt(11,2)); //'index is out of range'
+console.log(list00.removeAt(2));  //'index is out of range'
