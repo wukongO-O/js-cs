@@ -40,11 +40,41 @@ function buildTreeFromPreppedArr(sortedArr, firstInd, lastInd) {
 }
 
 
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+    if (node.rightChild !== null) {
+        prettyPrint(node.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.rootNode}`);
+    if (node.leftChild !== null) {
+        prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+};
+
+//Tests
 const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-console.log(sortArr(test1));
-console.log(removeDups(test1));
-const tree1 = Tree(test1); 
-console.log(tree1);
+console.log(sortArr(test1)); // [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
+console.log(removeDups(test1)); //[1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
+const tree1 = Tree(test1); //
+console.log(tree1); /*{
+    root0: {
+      rootNode: 8,
+      leftChild: { rootNode: 4, leftChild: [Object], rightChild: [Object] },
+      rightChild: { rootNode: 67, leftChild: [Object], rightChild: [Object] }
+    }
+  } */
+console.log(prettyPrint(tree1.root0)); /* 
+│           ┌── 6345
+│       ┌── 324
+│   ┌── 67
+│   │   │   ┌── 23
+│   │   └── 9
+└── 8
+    │       ┌── 7
+    │   ┌── 5
+    └── 4
+        │   ┌── 3
+        └── 1
+*/
 
 
 
