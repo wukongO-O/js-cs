@@ -6,10 +6,43 @@ function Node(rootNode, leftChild = null, rightChild = null) {
         rightChild
     };
 }
-//Build a tree factory taking an array & returning level-0 root
+//Build a tree factory taking an array 
 function Tree(arr) {
+    const prettyPrint = (node, prefix = '', isLeft = true) => {
+        if (node.rightChild !== null) {
+            prettyPrint(node.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+        }
+        console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.rootNode}`);
+        if (node.leftChild !== null) {
+            prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+        }
+    };
+    //function to insert a value 
+    const insertVal = (value) => { 
+        searchNodeToInsert(this.root0, value);
+
+    };
+    const searchNodeToInsert = (node, value) => {
+        if (node == null) {
+            node = Node(value);
+        };
+        if (node.rootNode > value) {
+            node.leftChild = searchNodeToInsert(node.leftChild, value);
+        } else if (node.rootNode < value) {
+            node.rightChild = searchNodeToInsert(node.rightChild, value);
+        }
+        return node;
+    };
+
+    const deleteVal = (value) => {
+
+    };
+
     return {
-        root0: buildTree(arr)
+        root0: buildTree(arr),
+        prettyPrint,
+        insertVal,
+        deleteVal
     };
 }
 //function turing an array into a BST
@@ -40,15 +73,7 @@ function buildTreeFromPreppedArr(sortedArr, firstInd, lastInd) {
 }
 
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-    if (node.rightChild !== null) {
-        prettyPrint(node.rightChild, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-    }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.rootNode}`);
-    if (node.leftChild !== null) {
-        prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-    }
-};
+
 
 //Tests
 const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -62,7 +87,7 @@ console.log(tree1); /*{
       rightChild: { rootNode: 67, leftChild: [Object], rightChild: [Object] }
     }
   } */
-console.log(prettyPrint(tree1.root0)); /* 
+console.log(tree1.prettyPrint(tree1.root0)); /* 
 │           ┌── 6345
 │       ┌── 324
 │   ┌── 67
@@ -75,6 +100,7 @@ console.log(prettyPrint(tree1.root0)); /*
         │   ┌── 3
         └── 1
 */
+tree1.insertVal(10);
 
 
 
