@@ -17,21 +17,30 @@ function Tree(arr) {
             prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
     };
-    //function to insert a value 
-    const insertVal = (value) => { 
-        searchNodeToInsert(this.root0, value);
 
+    //function to insert a value 
+    const insertVal = (obj, value) => { 
+        const insertNode = Node(value);
+        findNodeToInsert(obj, obj.root0, insertNode);
     };
-    const searchNodeToInsert = (node, value) => {
-        if (node == null) {
-            node = Node(value);
-        };
-        if (node.rootNode > value) {
-            node.leftChild = searchNodeToInsert(node.leftChild, value);
-        } else if (node.rootNode < value) {
-            node.rightChild = searchNodeToInsert(node.rightChild, value);
+    const findNodeToInsert = (obj, currentNode, insertNode) => {
+        if (obj.root0 == null) {
+            obj.root0 = insertNode;
+        } else {
+            if (currentNode.rootNode > insertNode.rootNode) {
+                if (currentNode.leftChild == null) {
+                    currentNode.leftChild = insertNode;
+                } else {
+                    findNodeToInsert(obj, currentNode.leftChild, insertNode);
+                }
+            } else if (currentNode.rootNode < insertNode.rootNode) {
+                if (currentNode.rightChild == null) {
+                    currentNode.rightChild = insertNode;
+                } else {
+                    findNodeToInsert(obj, currentNode.rightChild, insertNode);
+                }
+            }
         }
-        return node;
     };
 
     const deleteVal = (value) => {
@@ -42,7 +51,21 @@ function Tree(arr) {
         root0: buildTree(arr),
         prettyPrint,
         insertVal,
-        deleteVal
+
+        deleteVal(value) {
+            const delNode = Node(value);
+            if (delNode == this.root0) {
+
+            } else if (delNode.leftChild == null && delNode.rightChild == null) {
+
+            } else if ((delNode.leftChild != null && delNode.rightChild == null) ||
+                (delNode.rightChild != null && delNode.leftChild == null)) {
+
+            } else if (delNode.leftChild != null && delNode.rightChild != null) {
+                
+            }
+
+        }
     };
 }
 //function turing an array into a BST
@@ -87,7 +110,7 @@ console.log(tree1); /*{
       rightChild: { rootNode: 67, leftChild: [Object], rightChild: [Object] }
     }
   } */
-console.log(tree1.prettyPrint(tree1.root0)); /* 
+console.log(tree1.prettyPrint(tree1.root0));  /* 
 │           ┌── 6345
 │       ┌── 324
 │   ┌── 67
@@ -100,7 +123,21 @@ console.log(tree1.prettyPrint(tree1.root0)); /*
         │   ┌── 3
         └── 1
 */
-tree1.insertVal(10);
-
+tree1.insertVal(tree1, 10);
+console.log(tree1.prettyPrint(tree1.root0)); /*
+│           ┌── 6345
+│       ┌── 324
+│   ┌── 67
+│   │   │   ┌── 23
+│   │   │   │   └── 10
+│   │   └── 9
+└── 8
+    │       ┌── 7
+    │   ┌── 5
+    └── 4
+        │   ┌── 3
+        └── 1
+*/
+console.dir(tree1.root0, {depth: null});
 
 
