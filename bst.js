@@ -52,20 +52,31 @@ function Tree(arr) {
         prettyPrint,
         insertVal,
 
-        deleteVal(value) {
+        deleteVal(root, value) {
             const delNode = Node(value);
-            if (delNode == this.root0) {
-
-            } else if (delNode.leftChild == null && delNode.rightChild == null) {
-
-            } else if ((delNode.leftChild != null && delNode.rightChild == null) ||
-                (delNode.rightChild != null && delNode.leftChild == null)) {
-
-            } else if (delNode.leftChild != null && delNode.rightChild != null) {
-                
+            if (this.root0 == null) return null;
+            if (root.rootNode > delNode.rootNode) {
+                root.leftChild = deleteVal(root.leftChild, value);
+            } else if (root.rootNode < delNode.rootNode) {
+                root.rightChild = deleteVal(root.rightChild, value);
+            } else {
+                if (root.leftChild == null) {
+                    return root = root.rightChild;
+                } else if (root.rightChild == null) {
+                    return root = root.leftChild;
+                } else {
+                    root = this.findMaxLeftChild(root.leftChild);
+                    deleteVal(root.leftChild, root.rootNode);
+                }
             }
-
+        },
+        findMaxLeftChild(root) {
+            while (root.rightChild != null) {
+                root = root.rightChild;
+            }
+            return root;
         }
+
     };
 }
 //function turing an array into a BST
@@ -138,6 +149,7 @@ console.log(tree1.prettyPrint(tree1.root0)); /*
         │   ┌── 3
         └── 1
 */
+//console.dir(tree1.root0, {depth: null});
+
+tree1.deleteVal(tree1.root0, 67);
 console.dir(tree1.root0, {depth: null});
-
-
