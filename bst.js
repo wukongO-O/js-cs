@@ -17,8 +17,7 @@ function Tree(arr) {
             prettyPrint(node.leftChild, `${prefix}${isLeft ? '    ' : '│   '}`, true);
         }
     };
-
-    //function to insert a value 
+    //to insert a value, using arrow functions 
     const insertVal = (obj, value) => { 
         const insertNode = Node(value);
         findNodeToInsert(obj, obj.root0, insertNode);
@@ -42,11 +41,23 @@ function Tree(arr) {
             }
         }
     };
+    //to find a value, using function declaration
+    function findVal(currentNode, value) {
+        if (currentNode == null) return null;
+        if (currentNode.rootNode == value) {
+            return currentNode;
+        } else if (currentNode.rootNode > value) {
+            return findVal(currentNode.leftChild, value);
+        } else {
+            return findVal(currentNode.rightChild, value);
+        }
+    };
 
     return {
         root0: buildTree(arr),
         prettyPrint,
         insertVal,
+        //function to delete a value, using 'this' to reference returned object
         deleteVal(root, value) {
             if (root == null) return null;
             if (root.rootNode > value) {
@@ -71,7 +82,8 @@ function Tree(arr) {
                 nodeL = nodeL.rightChild;
             }
             return nodeL;
-        }
+        },
+        findVal
 
     };
 }
@@ -104,8 +116,8 @@ function buildTreeFromPreppedArr(sortedArr, firstInd, lastInd) {
 
 //Tests
 const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-console.log(sortArr(test1)); // [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
-console.log(removeDups(test1)); //[1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
+//console.log(sortArr(test1)); // [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
+//console.log(removeDups(test1)); //[1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
 const tree1 = Tree(test1); //
 console.log(tree1); /*{
     root0: {
@@ -127,8 +139,9 @@ console.log(tree1.prettyPrint(tree1.root0));  /*
         │   ┌── 3
         └── 1
 */
-tree1.insertVal(tree1, 10);
-console.log(tree1.prettyPrint(tree1.root0)); /*
+//tree1.insertVal(tree1, 10);
+//console.log(tree1.prettyPrint(tree1.root0)); 
+/*
 │           ┌── 6345
 │       ┌── 324
 │   ┌── 67
@@ -144,8 +157,8 @@ console.log(tree1.prettyPrint(tree1.root0)); /*
 */
 //console.dir(tree1.root0, {depth: null});
 //console.log(tree1.findMaxLeftChild(tree1.root0.leftChild)); //{ rootNode: 7, leftChild: null, rightChild: null }
-tree1.deleteVal(tree1.root0, 67);
-console.dir(tree1.root0, {depth: null});
+//tree1.deleteVal(tree1.root0, 67);
+//console.dir(tree1.root0, {depth: null});
 /*
 {
   rootNode: 8,
@@ -177,7 +190,7 @@ console.dir(tree1.root0, {depth: null});
   }
 }
 */
-console.log(tree1.prettyPrint(tree1.root0));
+//console.log(tree1.prettyPrint(tree1.root0));
 /*
 │           ┌── 6345
 │       ┌── 324
@@ -190,4 +203,12 @@ console.log(tree1.prettyPrint(tree1.root0));
     └── 4
         │   ┌── 3
         └── 1
+*/
+console.log(tree1.findVal(tree1.root0, 9));
+/*
+{
+  rootNode: 9,
+  leftChild: null,
+  rightChild: { rootNode: 23, leftChild: null, rightChild: null }
+}
 */
