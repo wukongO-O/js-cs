@@ -43,38 +43,34 @@ function Tree(arr) {
         }
     };
 
-    const deleteVal = (value) => {
-
-    };
-
     return {
         root0: buildTree(arr),
         prettyPrint,
         insertVal,
-
+//not working right
         deleteVal(root, value) {
-            const delNode = Node(value);
-            if (this.root0 == null) return null;
-            if (root.rootNode > delNode.rootNode) {
-                root.leftChild = deleteVal(root.leftChild, value);
-            } else if (root.rootNode < delNode.rootNode) {
-                root.rightChild = deleteVal(root.rightChild, value);
+            if (root == null) return null;
+            if (root.rootNode > value) {
+                this.deleteVal(root.leftChild, value);
+            } else if (root.rootNode < value) {
+                this.deleteVal(root.rightChild, value);
             } else {
                 if (root.leftChild == null) {
                     return root = root.rightChild;
                 } else if (root.rightChild == null) {
                     return root = root.leftChild;
                 } else {
-                    root = this.findMaxLeftChild(root.leftChild);
-                    deleteVal(root.leftChild, root.rootNode);
+                    const maxLeftChild = this.findMaxLeftChild(root.leftChild);
+                    this.deleteVal(root.leftChild, maxLeftChild.rootNode);
+                    root.rootNode = maxLeftChild.rootNode;
                 }
             }
         },
-        findMaxLeftChild(root) {
-            while (root.rightChild != null) {
-                root = root.rightChild;
+        findMaxLeftChild(node) {
+            while (node.rightChild != null) {
+                node = node.rightChild;
             }
-            return root;
+            return node;
         }
 
     };
@@ -105,9 +101,6 @@ function buildTreeFromPreppedArr(sortedArr, firstInd, lastInd) {
     currentRoot.rightChild = buildTreeFromPreppedArr(sortedArr, midIndex + 1, lastInd);
     return currentRoot;
 }
-
-
-
 
 //Tests
 const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
@@ -150,6 +143,7 @@ console.log(tree1.prettyPrint(tree1.root0)); /*
         └── 1
 */
 //console.dir(tree1.root0, {depth: null});
-
-tree1.deleteVal(tree1.root0, 67);
-console.dir(tree1.root0, {depth: null});
+//console.log(tree1.findMaxLeftChild(tree1.root0.leftChild)); //{ rootNode: 7, leftChild: null, rightChild: null }
+tree1.deleteVal(tree1.root0, 4);
+//console.dir(tree1.root0, {depth: null});
+console.log(tree1.prettyPrint(tree1.root0));
