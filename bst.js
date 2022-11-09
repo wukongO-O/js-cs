@@ -47,7 +47,6 @@ function Tree(arr) {
         root0: buildTree(arr),
         prettyPrint,
         insertVal,
-//not working right
         deleteVal(root, value) {
             if (root == null) return null;
             if (root.rootNode > value) {
@@ -61,16 +60,17 @@ function Tree(arr) {
                     return root = root.leftChild;
                 } else {
                     const maxLeftChild = this.findMaxLeftChild(root.leftChild);
-                    this.deleteVal(root.leftChild, maxLeftChild.rootNode);
                     root.rootNode = maxLeftChild.rootNode;
+                    this.deleteVal(root.leftChild, maxLeftChild.rootNode);
                 }
             }
+            return root;
         },
-        findMaxLeftChild(node) {
-            while (node.rightChild != null) {
-                node = node.rightChild;
+        findMaxLeftChild(nodeL) {
+            while (nodeL.rightChild != null) {
+                nodeL = nodeL.rightChild;
             }
-            return node;
+            return nodeL;
         }
 
     };
@@ -144,6 +144,50 @@ console.log(tree1.prettyPrint(tree1.root0)); /*
 */
 //console.dir(tree1.root0, {depth: null});
 //console.log(tree1.findMaxLeftChild(tree1.root0.leftChild)); //{ rootNode: 7, leftChild: null, rightChild: null }
-tree1.deleteVal(tree1.root0, 4);
-//console.dir(tree1.root0, {depth: null});
+tree1.deleteVal(tree1.root0, 67);
+console.dir(tree1.root0, {depth: null});
+/*
+{
+  rootNode: 8,
+  leftChild: {
+    rootNode: 4,
+    leftChild: {
+      rootNode: 1,
+      leftChild: null,
+      rightChild: { rootNode: 3, leftChild: null, rightChild: null }
+    },
+    rightChild: {
+      rootNode: 5,
+      leftChild: null,
+      rightChild: { rootNode: 7, leftChild: null, rightChild: null }
+    }
+  },
+  rightChild: {
+    rootNode: 23,
+    leftChild: {
+      rootNode: 9,
+      leftChild: null,
+      rightChild: { rootNode: 10, leftChild: null, rightChild: null }
+    },
+    rightChild: {
+      rootNode: 324,
+      leftChild: null,
+      rightChild: { rootNode: 6345, leftChild: null, rightChild: null }
+    }
+  }
+}
+*/
 console.log(tree1.prettyPrint(tree1.root0));
+/*
+│           ┌── 6345
+│       ┌── 324
+│   ┌── 23
+│   │   │   ┌── 10
+│   │   └── 9
+└── 8
+    │       ┌── 7
+    │   ┌── 5
+    └── 4
+        │   ┌── 3
+        └── 1
+*/
