@@ -52,6 +52,30 @@ function Tree(arr) {
             return findVal(currentNode.rightChild, value);
         }
     };
+    //to traverse the tree in breadth-first level order, using iteration
+    const levelOrder1 = (treeRoot) => {
+        if (treeRoot == null) return null;
+        let bstQueue = [treeRoot];
+        let nodeArr = [treeRoot.rootNode];
+        while (bstQueue != []) {
+            let currentNode1 = bstQueue[0];
+            if (currentNode1.leftChild != null) {
+                bstQueue.push(currentNode1.leftChild);
+            };
+            if (currentNode1.rightChild != null) {
+                bstQueue.push(currentNode1.rightChild);
+            } else {
+                return currentNode1;
+            }
+            bstQueue.shift();
+            nodeArr.push(bstQueue[0].rootNode);
+        }
+        return nodeArr;
+    }
+    //using recursion 
+    const levelOrder2 = () => {
+
+    }
 
     return {
         root0: buildTree(arr),
@@ -83,8 +107,9 @@ function Tree(arr) {
             }
             return nodeL;
         },
-        findVal
-
+        findVal,
+        levelOrder1,
+        levelOrder2
     };
 }
 //function turing an array into a BST
@@ -119,14 +144,16 @@ const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 //console.log(sortArr(test1)); // [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
 //console.log(removeDups(test1)); //[1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
 const tree1 = Tree(test1); //
-console.log(tree1); /*{
+//console.log(tree1.root0); 
+/*{
     root0: {
       rootNode: 8,
       leftChild: { rootNode: 4, leftChild: [Object], rightChild: [Object] },
       rightChild: { rootNode: 67, leftChild: [Object], rightChild: [Object] }
     }
   } */
-console.log(tree1.prettyPrint(tree1.root0));  /* 
+//console.log(tree1.prettyPrint(tree1.root0));  
+/* 
 │           ┌── 6345
 │       ┌── 324
 │   ┌── 67
@@ -204,7 +231,7 @@ console.log(tree1.prettyPrint(tree1.root0));  /*
         │   ┌── 3
         └── 1
 */
-console.log(tree1.findVal(tree1.root0, 9));
+//console.log(tree1.findVal(tree1.root0, 9));
 /*
 {
   rootNode: 9,
@@ -212,3 +239,4 @@ console.log(tree1.findVal(tree1.root0, 9));
   rightChild: { rootNode: 23, leftChild: null, rightChild: null }
 }
 */
+console.log(tree1.levelOrder1(tree1.root0));
