@@ -56,20 +56,18 @@ function Tree(arr) {
     const levelOrder1 = (treeRoot) => {
         if (treeRoot == null) return null;
         let bstQueue = [treeRoot];
-        let nodeArr = [treeRoot.rootNode];
-        while (bstQueue != []) {
+        let nodeArr = [];
+        while (bstQueue.length != 0) {
             let currentNode1 = bstQueue[0];
+            nodeArr.push(currentNode1.rootNode);
             if (currentNode1.leftChild != null) {
                 bstQueue.push(currentNode1.leftChild);
             };
             if (currentNode1.rightChild != null) {
                 bstQueue.push(currentNode1.rightChild);
-            } else {
-                return currentNode1;
-            }
+            };
             bstQueue.shift();
-            nodeArr.push(bstQueue[0].rootNode);
-        }
+        };
         return nodeArr;
     }
     //using recursion 
@@ -239,4 +237,4 @@ const tree1 = Tree(test1); //
   rightChild: { rootNode: 23, leftChild: null, rightChild: null }
 }
 */
-console.log(tree1.levelOrder1(tree1.root0));
+console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
