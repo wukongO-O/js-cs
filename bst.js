@@ -70,23 +70,24 @@ function Tree(arr) {
         };
         return nodeArr;
     };
-    //using recursion 
+    //level-order traversal, using recursion 
     const levelOrder2 = (tree) => {
-        let nodeVals = [];
-        function levelOrderRec (root, level) {
-            if (root == null) return;
-    
-            if (nodeVals[level]) {
-                nodeVals[level].push(root.rootNode);
+        let nodeVals = []; 
+
+        function levelOrderRec (currentNode, level) {
+            if (currentNode == null) return;
+            if (nodeVals[level]) { 
+                nodeVals[level].push(currentNode.rootNode); //for another node at the current level, add its value to the level's array element 
             } else {
-                nodeVals[level] = [root.rootNode];
+                nodeVals[level] = [currentNode.rootNode]; //create an array w 1st node value of current level & as an array element w the node's level as index, to eventually store node values of this level 
             }
-            levelOrderRec(root.leftChild, level+1);
-            levelOrderRec(root.rightChild, level+1);
+            levelOrderRec(currentNode.leftChild, level+1); 
+            levelOrderRec(currentNode.rightChild, level+1);  
         };
+
         levelOrderRec(tree.root0, 0);
         
-        return nodeVals.join(',').split(',').map(Number);
+        return nodeVals.join(',').split(',').map(Number); //join all array elements & turn each element from string to number
     };
 
     return {
