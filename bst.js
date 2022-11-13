@@ -73,9 +73,6 @@ function Tree(arr) {
     //level-order traversal, using recursion 
     const levelOrder2 = (tree) => {
         let nodeVals = []; 
-
-        
-
         levelOrderRec(tree.root0, 0, nodeVals);
         return nodeVals.join(',').split(',').map(Number); //join all array elements & turn each element from string to number
     };
@@ -89,14 +86,17 @@ function Tree(arr) {
         levelOrderRec(currentNode.leftChild, level+1, arr); 
         levelOrderRec(currentNode.rightChild, level+1, arr);  
     };
-
+    //inorder traversal of bst, i.e. from left subtree to root to right subtree
     const inorder = (tree) => {
         let nodeVals = [];
-        function inOrderRec (currentNode) {
-            
-        };
-        inOrderRec(tree.root0);
+        inOrderRec(tree.root0, nodeVals);
         return nodeVals;
+    };
+    function inOrderRec (currentNode, arr) {
+        if (!currentNode) return;
+        inOrderRec(currentNode.leftChild, arr);
+        arr.push(currentNode.rootNode);
+        inOrderRec(currentNode.rightChild, arr);
     };
     //traverse tree in depth-first preorder, i.e. from root to left branch to right branch
     const preorder = (tree) => {
@@ -281,5 +281,6 @@ const tree1 = Tree(test1); //
 }
 */
 //console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
-console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+//console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+//console.log(tree1.inorder(tree1)); // [1, 3, 4, 5,7, 8, 9, 23,67, 324, 6345]
 //console.log(tree1.preorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
