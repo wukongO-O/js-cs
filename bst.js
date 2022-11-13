@@ -253,4 +253,4 @@ const tree1 = Tree(test1); //
 }
 */
 //console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
-console.log(tree1.levelOrder2(tree1));
+console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
