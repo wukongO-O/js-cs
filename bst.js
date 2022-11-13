@@ -55,25 +55,39 @@ function Tree(arr) {
     //to traverse the tree in breadth-first level order, using iteration
     const levelOrder1 = (treeRoot) => {
         if (treeRoot == null) return null;
-        let bstQueue = [treeRoot];
+        let bstQueue = [treeRoot]; //create a queue with the bst tree's level-0 root node as the first item in the array
         let nodeArr = [];
         while (bstQueue.length != 0) {
-            let currentNode1 = bstQueue[0];
-            nodeArr.push(currentNode1.rootNode);
+            let currentNode1 = bstQueue[0]; //point to the 1st node item in queue
+            nodeArr.push(currentNode1.rootNode); //add the 1st node's value to an array 
             if (currentNode1.leftChild != null) {
                 bstQueue.push(currentNode1.leftChild);
             };
             if (currentNode1.rightChild != null) {
                 bstQueue.push(currentNode1.rightChild);
             };
-            bstQueue.shift();
+            bstQueue.shift(); //pop the 1st node from the queue, so its left child is lined up for the next iteration
         };
         return nodeArr;
-    }
+    };
     //using recursion 
-    const levelOrder2 = () => {
-
-    }
+    const levelOrder2 = (tree) => {
+        let nodeVals = [];
+        function levelOrderRec (root, level) {
+            if (root == null) return;
+    
+            if (nodeVals[level]) {
+                nodeVals[level].push(root.rootNode);
+            } else {
+                nodeVals[level] = [root.rootNode];
+            }
+            levelOrderRec(root.leftChild, level+1);
+            levelOrderRec(root.rightChild, level+1);
+        };
+        levelOrderRec(tree.root0, 0);
+        
+        return nodeVals.join(',').split(',').map(Number);
+    };
 
     return {
         root0: buildTree(arr),
@@ -237,4 +251,5 @@ const tree1 = Tree(test1); //
   rightChild: { rootNode: 23, leftChild: null, rightChild: null }
 }
 */
-console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+//console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+console.log(tree1.levelOrder2(tree1));
