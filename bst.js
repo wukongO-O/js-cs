@@ -86,8 +86,24 @@ function Tree(arr) {
         };
 
         levelOrderRec(tree.root0, 0);
-        
         return nodeVals.join(',').split(',').map(Number); //join all array elements & turn each element from string to number
+    };
+    const inorder = (tree) => {
+        let nodeVals = [];
+        function inOrderRec (currentNode) {
+            if (!currentNode) return;
+            nodeVals.push(currentNode.rootNode);
+            inOrderRec(currentNode.leftChild);
+            inOrderRec(currentNode.rightChild);
+        };
+        inOrderRec(tree.root0);
+        return nodeVals;
+    };
+    const preorder = (tree) => {
+
+    };
+    const postorder = (tree) => {
+
     };
 
     return {
@@ -122,7 +138,10 @@ function Tree(arr) {
         },
         findVal,
         levelOrder1,
-        levelOrder2
+        levelOrder2,
+        inorder,
+        preorder,
+        postorder
     };
 }
 //function turing an array into a BST
@@ -253,4 +272,5 @@ const tree1 = Tree(test1); //
 }
 */
 //console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
-console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+//console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+console.log(tree1.inorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
