@@ -74,34 +74,43 @@ function Tree(arr) {
     const levelOrder2 = (tree) => {
         let nodeVals = []; 
 
-        function levelOrderRec (currentNode, level) {
-            if (currentNode == null) return;
-            if (nodeVals[level]) { 
-                nodeVals[level].push(currentNode.rootNode); //for another node at the current level, add its value to the level's array element 
-            } else {
-                nodeVals[level] = [currentNode.rootNode]; //create an array w 1st node value of current level & as an array element w the node's level as index, to eventually store node values of this level 
-            }
-            levelOrderRec(currentNode.leftChild, level+1); 
-            levelOrderRec(currentNode.rightChild, level+1);  
-        };
+        
 
-        levelOrderRec(tree.root0, 0);
+        levelOrderRec(tree.root0, 0, nodeVals);
         return nodeVals.join(',').split(',').map(Number); //join all array elements & turn each element from string to number
     };
+    function levelOrderRec (currentNode, level, arr) {
+        if (currentNode == null) return;
+        if (arr[level]) { 
+            arr[level].push(currentNode.rootNode); //for another node at the current level, add its value to the level's array element 
+        } else {
+            arr[level] = [currentNode.rootNode]; //create an array w 1st node value of current level & as an array element w the node's level as index, to eventually store node values of this level 
+        }
+        levelOrderRec(currentNode.leftChild, level+1, arr); 
+        levelOrderRec(currentNode.rightChild, level+1, arr);  
+    };
+
     const inorder = (tree) => {
         let nodeVals = [];
         function inOrderRec (currentNode) {
-            if (!currentNode) return;
-            nodeVals.push(currentNode.rootNode);
-            inOrderRec(currentNode.leftChild);
-            inOrderRec(currentNode.rightChild);
+            
         };
         inOrderRec(tree.root0);
         return nodeVals;
     };
+    //traverse tree in depth-first preorder, i.e. from root to left branch to right branch
     const preorder = (tree) => {
-
+        let nodeVals = [];
+        preorderRec(tree.root0, nodeVals);
+        return nodeVals;
     };
+    function preorderRec (currentNode, arr) {
+        if (!currentNode) return;
+        arr.push(currentNode.rootNode); //recursively add value to the array from the root to the left child and then right child
+        preorderRec(currentNode.leftChild, arr);
+        preorderRec(currentNode.rightChild, arr);
+    };
+
     const postorder = (tree) => {
 
     };
@@ -272,5 +281,5 @@ const tree1 = Tree(test1); //
 }
 */
 //console.log(tree1.levelOrder1(tree1.root0)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
-//console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
-console.log(tree1.inorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
+console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
+//console.log(tree1.preorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
