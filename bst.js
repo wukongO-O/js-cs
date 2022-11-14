@@ -42,14 +42,14 @@ function Tree(arr) {
         }
     };
     //to find a value, using function declaration
-    function findVal(currentNode, value) {
-        if (currentNode == null) return null;
-        if (currentNode.rootNode == value) {
-            return currentNode;
-        } else if (currentNode.rootNode > value) {
-            return findVal(currentNode.leftChild, value);
+    function findVal(root, value) {
+        if (root == null) return null;
+        if (root.rootNode == value) {
+            return root;
+        } else if (root.rootNode > value) {
+            return findVal(root.leftChild, value);
         } else {
-            return findVal(currentNode.rightChild, value);
+            return findVal(root.rightChild, value);
         }
     };
     //to traverse the tree in breadth-first level order, using iteration
@@ -110,7 +110,7 @@ function Tree(arr) {
         preorderRec(currentNode.leftChild, arr);
         preorderRec(currentNode.rightChild, arr);
     };
-
+    //postorder traversal of bst, i.e. from left subtree to root to right subtree
     const postorder = (tree) => {
         let nodeVals = [];
         postorderRec(tree.root0, nodeVals);
@@ -122,7 +122,13 @@ function Tree(arr) {
         postorderRec(currentNode.rightChild, arr);
         arr.push(currentNode.rootNode);
     }
-
+    
+    const height = (node) => {
+        if (node == null) return -1;
+        let leftHeight = height(node.leftChild) + 1; 
+        let rightHeight = height(node.rightChild) + 1;
+        return Math.max(leftHeight, rightHeight);; 
+    };
 
     return {
         root0: buildTree(arr),
@@ -159,7 +165,9 @@ function Tree(arr) {
         levelOrder2,
         inorder,
         preorder,
-        postorder
+        postorder,
+        height
+        
     };
 }
 //function turing an array into a BST
@@ -189,7 +197,7 @@ function buildTreeFromPreppedArr(sortedArr, firstInd, lastInd) {
     return currentRoot;
 }
 
-//Tests
+//TESTS
 const test1 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 //console.log(sortArr(test1)); // [1, 3, 4, 4, 5, 7, 7, 8, 9, 9, 23, 67, 324, 6345]
 //console.log(removeDups(test1)); //[1, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
@@ -293,4 +301,6 @@ const tree1 = Tree(test1); //
 //console.log(tree1.levelOrder2(tree1)); // [8,  4,   67, 1, 5,  9,  324, 3, 7, 23, 6345]
 //console.log(tree1.inorder(tree1)); // [1, 3, 4, 5,7, 8, 9, 23,67, 324, 6345]
 //console.log(tree1.preorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
-console.log(tree1.postorder(tree1)); //[3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
+//console.log(tree1.postorder(tree1)); //[3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
+console.log(tree1.height(tree1.root0.leftChild));  //2
+
