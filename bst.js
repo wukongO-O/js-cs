@@ -121,13 +121,26 @@ function Tree(arr) {
         postorderRec(currentNode.leftChild, arr);
         postorderRec(currentNode.rightChild, arr);
         arr.push(currentNode.rootNode);
-    }
-    
+    };
+    //returns a given node's height - the longest path from this node to a leaf
     const height = (node) => {
         if (node == null) return -1;
         let leftHeight = height(node.leftChild) + 1; 
         let rightHeight = height(node.rightChild) + 1;
         return Math.max(leftHeight, rightHeight);; 
+    };
+    //returns a given node's depth - edgt #s from this node to the root 
+    const depth = (node, root) => {
+        if (!node || !root) return;
+        let nodeDepth;
+        if (node == root) {
+            nodeDepth = 0;
+        } else if (node.rootNode < root.rootNode) {
+            nodeDepth = depth(node, root.leftChild) + 1;
+        } else {
+            nodeDepth = depth(node, root.rightChild) + 1;
+        };
+        return nodeDepth;
     };
 
     return {
@@ -166,8 +179,8 @@ function Tree(arr) {
         inorder,
         preorder,
         postorder,
-        height
-        
+        height,
+        depth
     };
 }
 //function turing an array into a BST
@@ -302,5 +315,5 @@ const tree1 = Tree(test1); //
 //console.log(tree1.inorder(tree1)); // [1, 3, 4, 5,7, 8, 9, 23,67, 324, 6345]
 //console.log(tree1.preorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
 //console.log(tree1.postorder(tree1)); //[3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
-console.log(tree1.height(tree1.root0.leftChild));  //2
-
+//console.log(tree1.height(tree1.root0.leftChild));  //2
+console.log(tree1.depth(tree1.root0.rightChild.leftChild, tree1.root0)); //2
