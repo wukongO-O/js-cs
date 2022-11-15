@@ -125,9 +125,9 @@ function Tree(arr) {
     //returns a given node's height - the longest path from this node to a leaf
     const height = (node) => {
         if (node == null) return -1;
-        let leftHeight = height(node.leftChild) + 1; 
-        let rightHeight = height(node.rightChild) + 1;
-        return Math.max(leftHeight, rightHeight);; 
+        let heightFromL = height(node.leftChild) + 1; 
+        let heightFromR = height(node.rightChild) + 1;
+        return Math.max(heightFromL, heightFromR); 
     };
     //returns a given node's depth - edgt #s from this node to the root 
     const depth = (node, root) => {
@@ -145,13 +145,18 @@ function Tree(arr) {
     //checks if the tree is balanced & returns T/F 
     const isBanalanced = (root) => {
         if (!root) return;
-        let leftHeight = isBanalanced(root.leftChild);
-        let rightHeight = isBanalanced(root.rightChild);
+        let leftHeight = height(root.leftChild);
+        let rightHeight = height(root.rightChild);
         const heightDifference = leftHeight - rightHeight;
-        return heightDifference >= -1 && heightDifference <= 1;
+        return heightDifference >= -1 && heightDifference <= 1;  //tenary operator is omitted as the condition returns a boolean value
     };
-    const rebalance = () => {
-
+    //rebalance an unblanced tree
+    const rebalance = (root) => {
+        if (isBanalanced == true) return;
+        let newArr = [];
+        inOrderRec(root, newArr);
+        const newRoot = buildTree(newArr);
+        return newRoot;
     };
 
     return {
@@ -330,4 +335,45 @@ const tree1 = Tree(test1); //
 //console.log(tree1.postorder(tree1)); //[3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
 //console.log(tree1.height(tree1.root0.leftChild));  //2
 //console.log(tree1.depth(tree1.root0.rightChild.leftChild, tree1.root0)); //2
-console.log(tree1.isBanalanced(tree1.root0));
+//console.log(tree1.isBanalanced(tree1.root0)); //true
+tree1.insertVal(tree1, 30);
+tree1.insertVal(tree1, 31);
+//console.log(tree1.isBanalanced(tree1.root0)); //false
+console.log(tree1.prettyPrint(tree1.rebalance(tree1.root0)));
+/*
+│           ┌── 6345
+│       ┌── 324
+│       │   └── 67
+│   ┌── 31
+│   │   │   ┌── 30
+│   │   └── 23
+└── 9
+    │       ┌── 8
+    │   ┌── 7
+    │   │   └── 5
+    └── 4
+        │   ┌── 3
+        └── 1
+*/
+const randomArr = (arrLength) => {
+    let arr = [];
+    for (let i = 0; i < arrLength; i++) {
+        arr.push(Math.floor(Math.random()*10000));
+    };
+    return arr;
+};
+const test2 = randomArr(9);
+const tree2 = Tree(test2);
+console.log(tree2.prettyPrint(tree2.root0));
+/*
+│           ┌── 9369
+│       ┌── 8341
+│   ┌── 7813
+│   │   └── 7411
+└── 6831
+    │       ┌── 6067
+    │   ┌── 5173
+    └── 2553
+        └── 2342
+/
+console.log(tree2.isBanalanced(tree2.root0)); //true
