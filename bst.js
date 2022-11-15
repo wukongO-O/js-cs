@@ -142,6 +142,17 @@ function Tree(arr) {
         };
         return nodeDepth;
     };
+    //checks if the tree is balanced & returns T/F 
+    const isBanalanced = (root) => {
+        if (!root) return;
+        let leftHeight = isBanalanced(root.leftChild);
+        let rightHeight = isBanalanced(root.rightChild);
+        const heightDifference = leftHeight - rightHeight;
+        return heightDifference >= -1 && heightDifference <= 1;
+    };
+    const rebalance = () => {
+
+    };
 
     return {
         root0: buildTree(arr),
@@ -180,7 +191,9 @@ function Tree(arr) {
         preorder,
         postorder,
         height,
-        depth
+        depth,
+        isBanalanced,
+        rebalance
     };
 }
 //function turing an array into a BST
@@ -316,4 +329,5 @@ const tree1 = Tree(test1); //
 //console.log(tree1.preorder(tree1)); //[8, 4, 1, 3, 5, 7, 67, 9, 23, 324, 6345]
 //console.log(tree1.postorder(tree1)); //[3, 1, 7, 5, 4, 23, 9, 6345, 324, 67, 8]
 //console.log(tree1.height(tree1.root0.leftChild));  //2
-console.log(tree1.depth(tree1.root0.rightChild.leftChild, tree1.root0)); //2
+//console.log(tree1.depth(tree1.root0.rightChild.leftChild, tree1.root0)); //2
+console.log(tree1.isBanalanced(tree1.root0));
