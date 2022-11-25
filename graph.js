@@ -61,14 +61,55 @@ const hasPahtRec = (graphAdjList, nodeA, nodeB) => {
     for (let neighbor of graphAdjList[nodeA]) {
         if (hasPahtRec(graphAdjList, neighbor, nodeB) === true) return true;
     };
-    
+
     return false;
 };
 
 //undirected graph 
+const undirectedGraphPath = (edgeList, nodeA, nodeB) => {
+    const graphAdjList = adjList(edgeList);
+    return hasUndirectedPath (graphAdjList, nodeA, nodeB, new Set());
+};
+const hasUndirectedPath = (graph, nodeA, nodeB, visited) => {
+    if (nodeA === nodeB) return true;
 
+    if (visited.has(nodeA)) return false;
+    visited.add(nodeA);  //Set constructor to store visited nodes to void infite loop
 
-//testing
+    for (let neighbor of graph[nodeA]) {
+        if (hasUndirectedPath(graph, neighbor, nodeB, visited) === true) return true;
+    };
+
+    return false;
+};
+const adjList = (edgeList) => {
+    const graphAdjList = {};
+    for (let edge of edgeList) {
+        const [a, b] = edge;
+        if (! (a in graphAdjList)) graphAdjList[a] = [];
+        graphAdjList[a].push(b);
+        if (! (b in graphAdjList)) graphAdjList[b] = [];
+        graphAdjList[b].push(a);
+    }
+    return graphAdjList;
+};
+
+//count # of islands in the graph
+const connectedComponentsCount = (graphAdjList) => {
+    let count = 0;
+
+    return count;
+
+}
+//largest components
+
+//shortest path
+
+//island count
+
+//class Graph
+
+//TEST
 const graph1 = {
     a: ['b', 'c'],
     b: ['d'],
@@ -82,6 +123,16 @@ const graph1 = {
 // console.log(depthFirstRec(graph1, 'a'));  //[ 'a', 'b', 'd', 'f', 'c', 'e' ]
 // console.log(depthFirstRec(graph1, 'b'));  //[ 'b', 'd', 'f' ]
 // console.log(breadthFirst(graph1, 'a'));  // [ 'a', 'b', 'c', 'd', 'e', 'f' ]
-console.log(hasPathI(graph1, 'c', 'f'));  // false
-console.log(hasPahtRec(graph1, 'c', 'f'));  // false
-console.log(hasPahtRec(graph1, 'a', 'f'));  // true
+// console.log(hasPathI(graph1, 'c', 'f'));  // false
+// console.log(hasPahtRec(graph1, 'c', 'f'));  // false
+// console.log(hasPahtRec(graph1, 'a', 'f'));  // true
+
+const edges1 = [
+    ['i', 'j'],
+    ['k', 'i'],
+    ['m', 'k'],
+    ['k', 'l'],
+    ['o', 'n']
+];
+console.log(undirectedGraphPath(edges1, 'j', 'm')); //true
+console.log(undirectedGraphPath(edges1, 'k', 'n')); //false
