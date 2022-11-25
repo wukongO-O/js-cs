@@ -1,7 +1,7 @@
 //DFS directed graph via iteration
 const depthFirstI = (graphAdjList, nodeKey) => {
     const stack = [nodeKey]; //a stack to store nodes
-    const result = [];
+    let result = [];
 
     while (stack.length > 0) {
         const currentNode = stack.pop(); //LIFO
@@ -21,13 +21,26 @@ const depthFirstRec = (graphAdjList, nodeKey, result = []) => {
     for (let neighbor of graphAdjList[nodeKey]) {
         depthFirstRec(graphAdjList, neighbor, result);
     };
-    
+
     return result;
 };
 //BFS graph
+const breadthFirst = (graphAdjList, nodeKey) => {
+    const queue = [nodeKey]; //a queue initiated with starting node's key to store nodes
+    let result = [];
 
+    while (queue.length > 0) {
+        const currentNode = queue.shift(); //FIFO
+        result.push(currentNode);
+        for (let neighbor of graphAdjList[currentNode]) {
+            queue.push(neighbor);
+        };
+    }
+
+    return result;
+};
 //testing
-const graph = {
+const graph1 = {
     a: ['b', 'c'],
     b: ['d'],
     c: ['e'],
@@ -35,7 +48,8 @@ const graph = {
     e: [],
     f: []
 }
-// console.log(depthFirstI(graph, 'b')); //[ 'b', 'd', 'f' ]
-// console.log(depthFirstI(graph, 'a')); // [ 'a', 'c', 'e', 'b', 'd', 'f' ]
-console.log(depthFirstRec(graph, 'a'));  //[ 'a', 'b', 'd', 'f', 'c', 'e' ]
-console.log(depthFirstRec(graph, 'b'));  //[ 'b', 'd', 'f' ]
+// console.log(depthFirstI(graph1, 'b')); //[ 'b', 'd', 'f' ]
+// console.log(depthFirstI(graph1, 'a')); // [ 'a', 'c', 'e', 'b', 'd', 'f' ]
+// console.log(depthFirstRec(graph1, 'a'));  //[ 'a', 'b', 'd', 'f', 'c', 'e' ]
+// console.log(depthFirstRec(graph1, 'b'));  //[ 'b', 'd', 'f' ]
+console.log(breadthFirst(graph1, 'a'));  // [ 'a', 'b', 'c', 'd', 'e', 'f' ]
