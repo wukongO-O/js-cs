@@ -164,8 +164,36 @@ const shortestPath = (edgeList, nodeA, nodeB) => {
     return -1; //if no path is found 
 };
 
-//island count
+//island count - dfs
+const islandCount = (grid) => {
+    const visitedNodes = new Set();
+    let count = 0;
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (visitedIsland(grid, row, col, visitedNodes) === true) count +=1;
+        }
+    }
 
+    return count;
+}
+const visitedIsland = (grid, row, col, visited) => {
+    const rowInbounds = 0 <= row && row < grid.length; //store the inbounds conditions to 2 boolean variables
+    const columnInbounds = 0 <= col && col < grid[0].length;
+    if (! rowInbounds || ! columnInbounds) return false; //forming 1 out-of-bounds base case 
+
+    if (grid[row][col] === 'W') return false;
+
+    const gridCell = row + ',' + col;
+    if (visited.has(gridCell)) return false;
+    visited.add(gridCell);
+    //dfs recursively for all 4 neighbors, if they pass all above conditions
+    visitedIsland(grid, row + 1, col, visited);
+    visitedIsland(grid, row - 1, col, visited);
+    visitedIsland(grid, row, col + 1, visited);
+    visitedIsland(grid, row, col - 1, visited);
+
+    return true;
+};
 //class Graph
 
 //TEST
@@ -207,4 +235,14 @@ const graph2 = {
 }
 // console.log(connectedComponentsCount(graph2)); //2
 // console.log(largestIsland(graph2)); //4
-console.log(shortestPath(edges1, 'i', 'l')); //2
+// console.log(shortestPath(edges1, 'i', 'l')); //2
+
+const grid1 = [
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'W', 'W', 'L', 'W'],
+    ['W', 'W', 'L', 'L', 'W'],
+    ['L', 'W', 'W', 'L', 'L'],
+    ['L', 'L', 'W', 'W', 'W'],
+];
+console.log(islandCount(grid1)); //3
