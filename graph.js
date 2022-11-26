@@ -143,7 +143,26 @@ const visitedIslandSize = (graphAdjList, currentNode, visited) => {
     return islandSize;
 };
 
-//shortest path
+//shortest path - bfs
+const shortestPath = (edgeList, nodeA, nodeB) => {
+    const graphAdjList = adjList(edgeList);
+    const visitedNodes = new Set([nodeA]); 
+    let queue = [[nodeA, 0]];
+    while (queue.length > 0) {
+        const [currentNode, edges] = queue.shift();
+
+        if (currentNode === nodeB) return edges;
+        //keep searching if above condition wasn't met
+        for (let neighbor of graphAdjList[currentNode]) {
+            if (! visitedNodes.has(neighbor)) {
+                visitedNodes.add(neighbor);
+                queue.push([neighbor, edges + 1]);
+            }
+        }
+    }
+
+    return -1; //if no path is found 
+};
 
 //island count
 
@@ -187,4 +206,5 @@ const graph2 = {
     4: ['3', '2']
 }
 // console.log(connectedComponentsCount(graph2)); //2
-console.log(largestIsland(graph2)); //4
+// console.log(largestIsland(graph2)); //4
+console.log(shortestPath(edges1, 'i', 'l')); //2
