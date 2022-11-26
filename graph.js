@@ -1,3 +1,4 @@
+//notes from 'Graph Algorithms for Technical Interviews - Full Course'
 //DFS directed graph via iteration
 const depthFirstI = (graphAdjList, nodeKey) => {
     const stack = [nodeKey]; //a stack to store nodes
@@ -65,7 +66,7 @@ const hasPahtRec = (graphAdjList, nodeA, nodeB) => {
     return false;
 };
 
-//undirected graph 
+//check if a path exists for 2 nodes in undirected graph, taking edge list as 1 of the arguments 
 const undirectedGraphPath = (edgeList, nodeA, nodeB) => {
     const graphAdjList = adjList(edgeList);
     return hasUndirectedPath (graphAdjList, nodeA, nodeB, new Set());
@@ -96,12 +97,51 @@ const adjList = (edgeList) => {
 
 //count # of islands in the graph
 const connectedComponentsCount = (graphAdjList) => {
+    const visitedNodes = new Set();
     let count = 0;
 
-    return count;
+    for (let node in graphAdjList) {
+        if (visitIslandNodes(graphAdjList, node, visitedNodes) === true) {
+            count += 1;
+        }
+    }
 
-}
+    return count;
+};
+const visitIslandNodes = (graph, currentNode, visited) => {
+    if (visited.has(String(currentNode))) return false; //if already visited the node, skip to avoid infinit traversal
+    visited.add(String(currentNode));
+
+    for (let neighbor of graph[currentNode]) {
+        visitIslandNodes(graph, neighbor, visited);
+    };
+
+    return true; //after done visiting all neighbors
+};
+
 //largest components
+const largestIsland = (graphAdjList) => {
+    const visitedNode = new Set();
+    let largestOne = 1;
+    
+    for (let node in graphAdjList) {
+        let currentSize = visitedIslandSize(graphAdjList, node, visitedNode);
+        if (currentSize > largestOne) largestOne = currentSize;
+    }
+
+    return largestOne;
+};
+const visitedIslandSize = (graphAdjList, currentNode, visited) => {
+    if (visited.has(currentNode)) return 0;
+    visited.add(currentNode);
+    let islandSize = 1;
+    
+    for (let neighbor of graphAdjList[currentNode]) {
+        islandSize += visitedIslandSize(graphAdjList, neighbor, visited);
+    }
+
+    return islandSize;
+};
 
 //shortest path
 
@@ -134,5 +174,17 @@ const edges1 = [
     ['k', 'l'],
     ['o', 'n']
 ];
-console.log(undirectedGraphPath(edges1, 'j', 'm')); //true
-console.log(undirectedGraphPath(edges1, 'k', 'n')); //false
+// console.log(undirectedGraphPath(edges1, 'j', 'm')); //true
+// console.log(undirectedGraphPath(edges1, 'k', 'n')); //false
+
+const graph2 = {
+    0: ['8', '1', '5'],
+    1: ['0'],
+    5: ['0', '8'],
+    8: ['0', '5'],
+    2: ['3', '4'],
+    3: ['2', '4'],
+    4: ['3', '2']
+}
+// console.log(connectedComponentsCount(graph2)); //2
+console.log(largestIsland(graph2)); //4
